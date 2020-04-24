@@ -16,13 +16,35 @@ How to use these cmake files ?
 
 ## Requirements
 
-Add what needed to be installed beforehand on the system. 
+> TODO: Add what needed to be installed beforehand on the system. 
 
 ### Linux
 
-- GCC
+- `GCC` (includes `gfortran`).
 
 ### macOS
+
+- `LLVM/CLANG` or `GNU-GCC` (includes `gfortran`).
+  ```bash
+  Tested versions
+  ---------------
+  Apple clang version   : 11.0.3  
+  GCC C and CXX version :  9.3.0
+  GCC fortran version   :  6.3.0
+  ```
+
+#### Compiling with Apple Clang
+
+ - `gfortran` can be installed in two different ways using `homebrew`: 
+    - it comes with `gcc` suite and will be located in `/usr/local/lib/gcc`
+    - it comes as a standalone package `gfortran` and will be located in `/usr/local/gfortran/lib`. 
+
+ - Using `gcc fortran` you must set `LIBRARY_PATH=/usr/local/lib/gcc/9` to set the path to `gfortran` libraries.
+ - Using the standalone `gfortran`  set `LIBRARY_PATH=/usr/local/gfortran/lib` to set the path to `gfortran` libraries.
+
+> If you don't set `LIBRARY_PATH`, the program won't link correctly with `libquadmath`.   
+   
+> GCC limitation: the example `hs071_cpp` does not work and raises a SEGFAULT.  
 
 ### Windows
 
@@ -33,7 +55,11 @@ git clone https://github.com/robin-forks/coinor-ipopt
 git clone https://github.com/coin-or/Ipopt.git
 cd Ipopt
 git clone https://github.com/coin-or-tools/BuildTools/
-BuildTools/get.dependencies.sh fetch
+git co <the_release_tag_you_want>
+
+# outdated with newer version of ipopt
+# BuildTools/get.dependencies.sh fetch  
+
 cp -r ../coinor-ipopt/* .
 mkdir build
 cd build
@@ -43,19 +69,19 @@ make
 
 ## Compiling with downloaded sources
 
-```
-$ wget https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.0.tgz
-$ tar xvfz Ipopt-3.13.0.tgz
-$ git clone https://github.com/ycollet/coinor-ipopt.git
-$ cp -r coinor-ipopt/* Ipopt-3.13.0/
-$ cd Ipopt-3.13.0
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-3.13.0 -DCMAKE_BUILD_TYPE=RELEASE ..
-# Now activate all the options you want ... and click on  configure + generate and exit
-$ cmake-gui .
-$ make
-$ sudo make install
+``` 
+wget https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.0.tgz
+tar xvfz Ipopt-3.13.0.tgz
+git clone https://github.com/ycollet/coinor-ipopt.git
+cp -r coinor-ipopt/* Ipopt-3.13.0/
+cd Ipopt-3.13.0
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-3.13.0 -DCMAKE_BUILD_TYPE=RELEASE ..
+Now activate all the options you want ... and click on  configure + generate and exit
+cmake-gui .
+make
+sudo make install
 ```
 
 ## Windows users
