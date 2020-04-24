@@ -38,7 +38,7 @@ option(COIN_COMPILE_STATIC           "Activate the static linking" ON)
 option(COIN_COMPILE_COVERAGE         "Activate the code coverage compilation" OFF)
 option(COIN_COMPILE_PROFILE          "Activate the code profiling compilation" OFF)
 option(COIN_COMPILE_PROFILE_VALGRIND "Activate the code profiling compilation for valgrind" OFF)
-option(COIN_COMPILE_LTO              "Activate the whole program optimization" ON)
+option(COIN_COMPILE_LTO              "Activate the whole program optimization" OFF)  # GCC macOS does not support this
 option(COIN_HAS_MKL                  "Use Intel MKL library (requires Intel compiler)" OFF)
 option(COIN_USE_FAST_CODE            "Use intensive optimization flags" ON)
 option(COIN_COMPILE_WARNINGS         "Activate a set of warning options" OFF)
@@ -46,7 +46,7 @@ option(COIN_COMPILE_CXX11            "Activate C++11 compilation" ON)
 option(COIN_TESTS_DISABLE_TIMEOUT    "Disable the timeout of the tests" OFF)
 option(COIN_ENABLE_DOXYGEN           "Enable the build of doxygen documentation" OFF)
 
-option(USE_PROCESSOR_EXTENSIONS      "Use sse / mmx / avx extensions during compilation" ON)
+option(USE_PROCESSOR_EXTENSIONS      "Use sse / mmx / avx extensions during compilation" OFF)
 option(COIN_ENABLE_COMPAT            "Enable libc compatibility" OFF)   # Do not compile if ON
 
 # Set paths of source
