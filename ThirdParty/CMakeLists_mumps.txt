@@ -1,16 +1,21 @@
+# This file is copied into MUMPS folder once the library downloaded
+#
+
 project (MUMPS C CXX Fortran)
 
 cmake_minimum_required (VERSION 2.8)
 
 option(MUMPS_USE_LIBSEQ   "Use the MUMPS sequential MPI stub" OFF)
-option(MUMPS_USE_METIS    "Use the Metis library"             OFF)
+option(MUMPS_USE_METIS    "Use the Metis library"             ON)
 option(MUMPS_USE_F2C      "F2c was used to compiled CLapack"  OFF)
-option(MUMPS_INSTALL_COIN "Install MUMPS for CoinOR"          OFF)
+option(MUMPS_INSTALL_COIN "Install MUMPS for CoinOR"          ON)
 
 set(MUMPS_METIS_INC_PATH "None" CACHE PATH "The METIS library include Path")
 set(MUMPS_METIS_LIB_PATH "None" CACHE PATH "The METIS library library Path")
 
 set(MUMPS_LAPACK_LIB_PATH "None" CACHE PATH "The Lapack library library Path")
+
+set(INCLUDEDIR ${CMAKE_SOURCE_DIR}/../../../include)
 
 include(GNUInstallDirs)
 
@@ -58,8 +63,8 @@ endif ()
 # Use MKL_LIBS to specify the required libs under MKL
 if (WIN32)
   if (HAVE_64_BIT)
-    set(MKL_LIBS mkl_lapack95_lp64 
-                 mkl_blas95_lp64 
+    set(MKL_LIBS mkl_lapack95_lp64
+                 mkl_blas95_lp64
                  mkl_solver_lp64
                  mkl_intel_lp64
                  mkl_intel_thread
@@ -143,20 +148,20 @@ set(MUMPS_PORD_SRCS PORD/lib/graph.c
                     PORD/lib/gbisect.c
                     PORD/lib/ddcreate.c
                     PORD/lib/ddbisect.c
-                    PORD/lib/nestdiss.c 
+                    PORD/lib/nestdiss.c
                     PORD/lib/multisector.c
                     PORD/lib/gelim.c
                     PORD/lib/bucket.c
                     PORD/lib/tree.c
                     PORD/lib/symbfac.c
-                    PORD/lib/interface.c 
+                    PORD/lib/interface.c
                     PORD/lib/sort.c
                     PORD/lib/minpriority.c)
-       
+
 set(MUMPS_LIBSEQ_SRCS libseq/mpi.f
                       libseq/mpic.c
                       libseq/elapse.c)
-    
+
 set(MUMPS_COMMON_SRCS src/mumps_part9.F
                       src/mumps_common.c
                       src/mumps_ooc_common.F
@@ -237,52 +242,52 @@ else ()
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -cpp -Wall -fcray-pointer -fall-intrinsics -finit-local-zero -DALLOW_NON_INIT -Dintel_ ")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DAdd_ ")
 endif ()
-  
+
 if (WIN32)
   if (MUMPS_USE_LIBSEQ)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   libseq)
   else ()
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   ${MPI_LIB_NAME})
   endif ()
-  
+
   if (MKL_FOUND)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   ${ATLAS_LIBRARIES}
                   libiomp5mt)
   endif ()
 else ()
   if (MKL_FOUND)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   ${ATLAS_LIBRARIES}
                   iomp5)
   endif ()
-  
+
   if (MUMPS_USE_LIBSEQ)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   libseq)
   else ()
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   ${MPI_LIB_NAME})
   endif ()
-  
+
   if (BLAS_FOUND)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   blas)
   endif ()
-  
+
   if (LAPACK_FOUND)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   lapack)
   endif ()
-  
+
   if (MUMPS_USE_F2C)
-    set(LINK_LIBS ${LINK_LIBS} 
+    set(LINK_LIBS ${LINK_LIBS}
                   f2c)
   endif ()
-  
-  set(LINK_LIBS ${LINK_LIBS} 
+
+  set(LINK_LIBS ${LINK_LIBS}
                 pthread)
 endif ()
 
@@ -424,3 +429,4 @@ install(DIRECTORY include/
 install(DIRECTORY PORD/include/
         DESTINATION ${INCLUDEDIR}/
         PATTERN "*.h")
+
