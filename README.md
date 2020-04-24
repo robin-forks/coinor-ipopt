@@ -14,7 +14,35 @@ How to use these cmake files ?
 - Make the libraries: make
 - Install the libraries: sudo make install
 
-An example:
+## Requirements
+
+Add what needed to be installed beforehand on the system. 
+
+### Linux
+
+- GCC
+
+### macOS
+
+### Windows
+
+## Compiling using git repositories
+
+```bash 
+git clone https://github.com/robin-forks/coinor-ipopt
+git clone https://github.com/coin-or/Ipopt.git
+cd Ipopt
+git clone https://github.com/coin-or-tools/BuildTools/
+BuildTools/get.dependencies.sh fetch
+cp -r ../coinor-ipopt/* .
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
+make
+```
+
+## Compiling with downloaded sources
+
 ```
 $ wget https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.0.tgz
 $ tar xvfz Ipopt-3.13.0.tgz
@@ -29,6 +57,8 @@ $ cmake-gui .
 $ make
 $ sudo make install
 ```
+
+## Windows users
 
 Under Windows, with Visual Studio:
 
@@ -189,49 +219,26 @@ Be careful to activate the right set of tests (not the long one).
 The f2c.h file included in each ThirdParty directory is copied from the Fedora f2c package.
 This header is used to fix compilation of clapack ...
 
-# Compiling using git repo:
-
-$ git clone https://github.com/ycollet/coinor-ipopt.git
-$ git clone https://github.com/coin-or/Ipopt.git
-$ cd Ipopt
-$ git clone https://github.com/coin-or-tools/BuildTools/
-$ BuildTools/get.dependencies.sh fetch
-$ cp -r ../coinor-ipopt/* .
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
-$ make
-
-# Compiling using coinbrew:
+# Compiling using coinbrew
 
 You have two ways to get a coin-or project via coinbrew
 
-$ git clone https://github.com/coin-or/coinbrew.git
-$ coinbrew/coinbrew fetch --git --main-proj="Ipopt"
-$ cp -r ../coinor-ipopt/* Ipopt/
-$ cd Ipopt
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
-$ make
-
-or:
-
-$ git clone https://github.com/coin-or/Ipopt
-$ cd Ipopt
-$ ../coinbrew/coinbrew fetch --git --main-proj=. --skip="Ipopt"
-$ cp -r ../coinor-ipopt/* .
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
-$ make
-
+```bash 
+git clone https://github.com/coin-or/coinbrew.git
+coinbrew/coinbrew fetch --git --main-proj="Ipopt"
+cp -r ../coinor-ipopt/* Ipopt/
+cd Ipopt
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
+make
+```
 # if you've got an error related to git describe:
 
 $ git tag test HEAD~1
 
 # Or you can add a tag at the first commit of a branch:
-
+```
 $ git log | tail
 Author: Andreas Waechter <andreas.waechter@northwestern.edu>
 Date:   Thu Oct 21 01:03:09 2004 +0000
@@ -247,7 +254,7 @@ Date:   Thu Oct 21 01:03:09 2004 +0000
 $ git tag first_commit 2dc3ded2d97f2c889ae7baafa49128d2bec1f25b
 
 $ cmake -DCMAKE_INSTALL_PREFIX=/opt/ipopt-devel -DCMAKE_BUILD_TYPE=RELEASE ..
-
+```
 # To do
 
 Tasks:
@@ -272,7 +279,7 @@ $ ctest -LE LONG
 ```
 
 With Lapack fortran and Mumps (using mumps / libseq and not MPI):
-
+```
 88% tests passed, 82 tests failed out of 680
 
 Label Time Summary:
@@ -355,4 +362,4 @@ SAMPLE     =   3.59 sec (34 tests)
 WARNING    =  22.01 sec (8 tests)
 
 Total Test time (real) = 1010.68 sec
-
+```
