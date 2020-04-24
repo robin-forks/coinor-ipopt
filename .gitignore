@@ -56,3 +56,4 @@ test/
 /Makefile.am
 /Makefile.in
 /missing
+/BuildTools
